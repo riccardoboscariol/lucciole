@@ -7,7 +7,6 @@ scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/au
 
 # Usa secrets TOML già caricati su Streamlit Cloud
 creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["credentials"], scope)
-client = gspread.authorize(creds)
 
 # ✅ Usa l’ID corretto del foglio (quello presente nell’URL del Google Sheet)
 sheet = client.open_by_key("16amhP4JqU5GsGg253F2WJn9rZQIpx1XsP3BHIwXq1EA").sheet1
