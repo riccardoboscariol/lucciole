@@ -1,31 +1,34 @@
 import streamlit as st
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 import datetime
+from oauth2client.service_account import ServiceAccountCredentials
+import json
 
+# Scope di accesso
 scope = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive"
 ]
 
-# Usa le credenziali da secrets TOML
-creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["credentials"], scope)
-client = gspread.authorize(creds)
+# Caricamento credenziali
+creds_dict = st.secrets["google_sheets"]["credentials_json"]
+if isinstance(creds_dict, str):
+    creds_dict = json.loads(creds_dict)
 
-# ID CORRETTO del foglio Google (preso dall'URL)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+client = gspread.authorize(creds)
 sheet = client.open_by_key("16amhP4JqU5GsGg253F2WJn9rZQIpx1XsP3BHIwXq1EA").sheet1
 
-
-# FUNZIONE PER INVERSO SCALA
+# Funzione scala inversa
 def reverse(score):
     return 6 - score
 
-# CONFIGURAZIONE PAGINA
+# Config
 st.set_page_config(page_title="Test Empatia IRI", layout="centered")
 st.title("🧠 Test Empatico – Dove Nascono le Lucciole")
 st.markdown("Compila tutte le 28 domande. Le tue risposte contribuiranno a generare una forma visiva unica.")
 
-# DOMANDE
+# Domande
 questions = {
     "Perspective Taking": {
         "Cerco di guardare le cose dal punto di vista dei miei amici quando siamo in disaccordo.": False,
@@ -65,9 +68,9 @@ questions = {
     }
 }
 
-# RACCOLTA RISPOSTE
+# Risposte
 user_responses = []
-scores = {"Perspective Taking": 0, "Fantasy": 0, "Empathic Concern": 0, "Personal Distress": 0}
+scores = {k: 0 for k in questions}
 
 st.write("---")
 st.subheader("📋 Rispondi da 1 (Per niente d'accordo) a 5 (Molto d'accordo)")
@@ -80,10 +83,10 @@ for category, items in questions.items():
         scores[category] += adjusted
         user_responses.append(val)
 
-# MEDIA su 7 domande
+# Media
 final_scores = {k: round(v / 7, 2) for k, v in scores.items()}
 
-# INVIO A GOOGLE SHEET
+# Invio
 if st.button("📨 Invia le tue risposte"):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sheet.append_row([
@@ -95,5 +98,6 @@ if st.button("📨 Invia le tue risposte"):
         final_scores["Personal Distress"]
     ])
     st.success("✨ Risposte inviate! La tua forma empatica sta prendendo vita…")
+
 
 
