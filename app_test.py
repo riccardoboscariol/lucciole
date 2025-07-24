@@ -3,12 +3,17 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import datetime
 
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+scope = [
+    "https://spreadsheets.google.com/feeds",
+    "https://www.googleapis.com/auth/drive"
+]
 
+# Usa le credenziali da secrets TOML
 creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["credentials"], scope)
-client = gspread.authorize(creds)  # ✅ PRIMA si crea client
+client = gspread.authorize(creds)
 
-sheet = client.open_by_key("16amhP4JqU5GsGg253F2WJn9rZQIpx1XsP3BHIwXq1EA").sheet1  # ✅ POI lo si usa
+# ID CORRETTO del foglio Google (preso dall'URL)
+sheet = client.open_by_key("16amhP4JqU5GsGg253F2WJn9rZQIpx1XsP3BHIwXq1EA").sheet1
 
 
 # FUNZIONE PER INVERSO SCALA
