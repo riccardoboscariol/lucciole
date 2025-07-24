@@ -12,7 +12,8 @@ scope = [
 credentials_dict = st.secrets["credentials"]
 creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["credentials"], scope)
 client = gspread.authorize(creds)
-sheet = client.open("lucciole_risposte").sheet1  # Nome del foglio
+sheet = client.open_by_key("1AbCDEfgHIJkLmNOPQrsTUVwxYZ1234567890abcdEFG").sheet1
+
 
 # FUNZIONE PER INVERSO SCALA
 def reverse(score):
