@@ -10,7 +10,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["credentials
 client = gspread.authorize(creds)
 
 # ✅ Usa l’ID corretto del foglio (quello presente nell’URL del Google Sheet)
-sheet = client.open_by_key("103038643291527745036").sheet1
+sheet = client.open_by_key("16amhP4JqU5GsGg253F2WJn9rZQIpx1XsP3BHIwXq1EA").sheet1
 client = gspread.authorize(creds)
 
 
