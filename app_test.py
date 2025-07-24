@@ -3,16 +3,15 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import datetime
 
-# SETUP CREDENZIALI DA SECRETS
-scope = [
-    "https://spreadsheets.google.com/feeds",
-    "https://www.googleapis.com/auth/drive"
-]
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
-credentials_dict = st.secrets["credentials"]
+# Usa secrets TOML già caricati su Streamlit Cloud
 creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["credentials"], scope)
 client = gspread.authorize(creds)
-sheet = client.open_by_key("1AbCDEfgHIJkLmNOPQrsTUVwxYZ1234567890abcdEFG").sheet1
+
+# ✅ Usa l’ID corretto del foglio (quello presente nell’URL del Google Sheet)
+sheet = client.open_by_key("103038643291527745036").sheet1
+client = gspread.authorize(creds)
 
 
 # FUNZIONE PER INVERSO SCALA
