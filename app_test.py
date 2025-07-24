@@ -11,7 +11,7 @@ scope = [
 ]
 
 # Caricamento credenziali
-creds_dict = st.secrets["google_sheets"]["credentials_json"]
+creds_dict = dict(st.secrets["credentials"])
 if isinstance(creds_dict, str):
     creds_dict = json.loads(creds_dict)
 
