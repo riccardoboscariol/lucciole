@@ -10,7 +10,7 @@ scope = [
 ]
 
 credentials_dict = st.secrets["credentials"]
-creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, scope)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["credentials"], scope)
 client = gspread.authorize(creds)
 sheet = client.open("lucciole_risposte").sheet1  # Nome del foglio
 
