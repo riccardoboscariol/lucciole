@@ -99,6 +99,9 @@ if st.button("📨 Invia le tue risposte"):
     ])
     st.success("✨ Risposte inviate! La tua forma empatica sta prendendo vita…")
 
+print(client.openall())  # Elenca tutti i file accessibili al service account
+
+
 
 
 
